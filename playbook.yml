@@ -53,14 +53,12 @@
           - mysql-server
 
     # Install and enable qemu-guest-agent to allow IP reporting to proxmox
+    # Need to figure out how to enable and start service from ansible
     - name: Install and enable qemu-guest-agent
       apt:
         name: qemu-guest-agent
         state: present
-        service: 
-          name: qemu-guest-agent
-          state: started
-          enabled: yes
+
     #Clone git repo
     - name: Clone git repository
       git:
