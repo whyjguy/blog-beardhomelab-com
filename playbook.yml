@@ -67,7 +67,7 @@
 
     - name: Add Apache virtualhost for Drupal.
       template:
-        src: "templates/durpal.test.conf.j2"
+        src: "templates/drupal.test.conf.j2"
         dest: "/etc/apache2/sites-available/{{ domain }}.test.conf"
         owner: root
         group: root
@@ -97,7 +97,7 @@
       notify: restart apache
 
     - name: Create a MysQL database for Drupal.
-      mysql_db: "db={{ domain }} sate=present"
+      mysql_db: "db={{ domain }} state=present"
     - name: Create a Mysql user for Drupal.
       mysql_user:
         name: "{{ domain }}"
@@ -119,9 +119,9 @@
         chdir=/tmp
         creates=/usr/local/bin/composer
 
-    - name: Move Compoer into globally-accessible location.
+    - name: Move Composer into globally-accessible location.
       command: >
-        mv /tmp/composer.phar /user/local/bin/composer
+        mv /tmp/composer.phar /usr/local/bin/composer
         creates=/usr/local/bin/composer
 
     - name: Ensure Drupal directory exists.
@@ -144,4 +144,22 @@
       become_user: www-data
       when: not drupal_composer_json.stat.exists
 
-       
+    - name: Add drush to the Drupal site with Composer.
+      composer:
+        command: require
+        arguments: drush/drush:10.*
+        working_dir: "{{ drupal_core_path }}"
+      become_user: www-data
+      when: not drupal_composer_json.stat.exists
+
+    - name: Install Drupal.
+      command: >
+        vendor/bin/drush si -y --site-name=" {{ drupal_site_name }}"
+        --account-name=admin
+        --account-pass=admin
+        --db-url=mysql://{{ domain }}:1234@localhost/{{ domain }}
+        --root={{ drupal_core_path }}/web
+        chdir={{ drupal_core_path }}
+        creates={{ drupal_core_path }}/web/sites/default/settings.php
+      notify: restart apache
+      become_user: www-data   

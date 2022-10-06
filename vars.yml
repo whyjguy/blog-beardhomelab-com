@@ -4,3 +4,6 @@ drupal_core_path: "/var/www/drupal"
 
 # The resulting domain will be [domain].test (with .test appeneded).
 domain: "drupal"
+
+# Durpal Site Name.
+drupal_site_name: "Beard Homelab"
