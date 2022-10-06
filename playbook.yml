@@ -57,7 +57,8 @@
       apt:
         name: qemu-guest-agent
         state: present
-        systemd: 
+        service: 
+          name: qemu-guest-agent
           state: started
           enabled: yes
     #Clone git repo
