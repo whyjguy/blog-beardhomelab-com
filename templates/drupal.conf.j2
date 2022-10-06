@@ -1,7 +1,7 @@
 <VirtualHost *:80>
     ServerAdmin webmaster@localhost
-    ServerName {{ domain }}.test
-    ServerAlias www.{{ domain }}.test
+    ServerName {{ domain }}
+    ServerAlias www.{{ domain }}
     DocumentRoot {{ drupal_core_path }}/web
     <Directory "{{ drupal_core_path }}/web">
         Options FollowSymLinks Indexes

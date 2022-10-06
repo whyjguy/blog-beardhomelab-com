@@ -51,6 +51,9 @@
           - libapache2-mod-php7.4
           - python3-mysqldb
           - mysql-server
+
+    #configure firewall settings for production
+
     - name: Disable the firewall (Local Dev Only)
       service: name=ufw state=stopped
 
@@ -67,8 +70,8 @@
 
     - name: Add Apache virtualhost for Drupal.
       template:
-        src: "templates/drupal.test.conf.j2"
-        dest: "/etc/apache2/sites-available/{{ domain }}.test.conf"
+        src: "templates/drupal.conf.j2"
+        dest: "/etc/apache2/sites-available/{{ domain }}.conf"
         owner: root
         group: root
         mode: 0644
@@ -77,8 +80,8 @@
 
     - name: Enable the Drupal site.
       command: > 
-        a2ensite {{ domain }}.test
-        creates=/etc/apache2/sites-enabled/{{ domain }}.test.conf
+        a2ensite {{ domain }}
+        creates=/etc/apache2/sites-enabled/{{ domain }}.conf
       notify: restart apache
 
 
