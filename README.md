@@ -22,11 +22,21 @@ Steps:
 1. Create Ubuntu Server VM in Proxmox.
 2. After install remove Virtual CD Drive.
 3. Create Base level snapshot pre-app install.
+4. Add IP address to [PRODUCTION] inventory file.
 
+5. Run ansible command from macbook to start install.
+'''
+ansible-playbook playbook.yml -i inventory --limit PRODUCTION --ask-become
+'''
 
+My first run failed for "FAILED! => {"changed": false, "msg": "Failed to update apt cache: E:The repository 'file:/cdrom jammy Release' no longer has a Release file., W:Updating from such a repository can't be done securely, and is therefore disabled by default., W:See apt-secure(8) manpage for repository creation and user configuration details., W:http://ppa.launchpad.net/ondrej/php/ubuntu/dists/jammy/InRelease: Key is stored in legacy trusted.gpg keyring (/etc/apt/trusted.gpg), see the DEPRECATION section in apt-key(8) for details."}"
 
-Production First Actions:
+This is due to an extra line in /etc/apt/sources. The fix was to comment out the extra line.
 
-Create new Admin user and set password.
+6. Get install script from Cloudflare zero-trust tunnel. SSH into VM and run.
 
-Change default Admin account password and disable account
+I'll work on creating a post on setting up Cloudflare tunnels at a later date. 
+
+Once the tunnel is live, the site should now be up and running and you should see a default post page.
+
+7. Login and create a new user account with admin rights. Change the default password for the default admin account and disable it. 
