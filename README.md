@@ -25,9 +25,9 @@ Steps:
 3. Create Base level snapshot pre-app install.
 4. Add IP address to [PRODUCTION] inventory file
 ### Add ansible task to install markdown ####
-'''
+'
 composer require drupal/markdown
-'''
+'
 5. Run ansible command from macbook to start install.
 '''
 ansible-playbook playbook.yml -i inventory --limit PRODUCTION --ask-become
