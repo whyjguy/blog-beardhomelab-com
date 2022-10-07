@@ -94,6 +94,10 @@
       ufw:
         rule: allow
         port: 443
+    - name: Firewall allow Cloudflared
+      ufw:
+        rule: allow
+        name: 
     ## TODO update firewall rules
     #- name: Firewall block all outgoing
     #  ufw:
@@ -216,3 +220,10 @@
         creates={{ drupal_core_path }}/web/sites/default/settings.php
       notify: restart apache
       become_user: www-data   
+
+    - name: Install Drupal Backup and Migrate
+      composer:
+        command: require
+        arguments: drupal/backup_migrate:^5.0
+        working_dir: "{{ drupal_core_path }}"
+      become_user: www-data
