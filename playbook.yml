@@ -58,25 +58,22 @@
       apt:
         name: qemu-guest-agent
         state: present
-
+    - name: Create git repository folder
+      file:
+        path: ~/drupal
+        state: directory
     #Clone git repo
     - name: Clone git repository
       git:
         repo: https://github.com/whyjguy/blog-beardhomelab-com
-        dest: ~/
+        dest: ~/drupal/
         clone: yes
         update: yes
+
         
 
     #configure firewall settings for production
-    - name: Firewall block all outgoing
-      ufw:
-        rule: deny
-        direction: outgoing
-    - name: Firewall block all incoming
-      ufw:
-        rule: deny
-        direction: incoming
+    
     - name: Firewall allow OpenSSH
       ufw:
         rule: allow
@@ -97,6 +94,15 @@
       ufw:
         rule: allow
         port: 443
+    ## TODO update firewall rules
+    #- name: Firewall block all outgoing
+    #  ufw:
+    #    rule: deny
+    #    direction: out
+    #- name: Firewall block all incoming
+    #  ufw:
+    #    rule: deny
+    #    direction: in
     - name: Firewall enabled
       ufw:
         state: enabled
