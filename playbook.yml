@@ -227,3 +227,8 @@
         arguments: drupal/backup_migrate:^5.0
         working_dir: "{{ drupal_core_path }}"
       become_user: www-data
+    - name: Drupal admin_toolbar
+      composer:
+        command: require
+        arguments: drupal/admin_toolbar
+        working_dir: "{{ drupal_core_path }}"
