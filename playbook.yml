@@ -236,4 +236,11 @@
         working_dir: "{{ drupal_core_path }}"
       become_user: www-data
       tags: Modules
-      
+
+    - name: Drupal view counter
+      composer:
+        command: require
+        arguments: drupal/counter:^1.2
+        working_dir: "{{ drupal_core_path }}"
+      become_user: www-data
+      tags: Modules
